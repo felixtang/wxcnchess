@@ -8,6 +8,7 @@
  * @author Yaohua Xiao bentry@163.com
  */
 
+#include <map>
 
 // tree.hh: an STL-like C++ tree class
 // Kasper Peeters, kasper.peeters (at) gmail.com
@@ -16,6 +17,9 @@
 namespace wxCnChess{
 
     //----------------------------------------------------------------------------------
+    typedef std::map<std::string, std::string> StringMap;
+    typedef StringMap::iterator StringMapIter;
+
     class GameNode{
     public:
 
@@ -27,16 +31,18 @@ namespace wxCnChess{
     public:
 
     private:
-        core::tree<GameNode> GameTree;
+        tree<GameNode>  GameTree;
+        StringMap       GameInfo;
+
     };
 
     //----------------------------------------------------------------------------------
     class IFileReader {
     public:
-        virtual bool ReadGame(wxCnChessGame& Game, const char* filename);
-
-        virtual std::string GetLastError();
-    }
+        virtual bool ReadGame(wxCnChessGame& Game, const char* filename) = 0;
+        virtual bool ReadGame(wxCnChessGame& Game, std::istream& data_stream) = 0;
+        virtual std::string GetLastError() = 0;
+    };
 
 }
 #endif // WXCNCHESSGAME_H_INCLUDED
