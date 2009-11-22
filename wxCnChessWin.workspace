@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_workspace_file>
 	<Workspace title="Workspace">
-		<Project filename="wxCnChessWin.cbp" active="1" />
-		<Project filename="boost_test_ReadXQF_Win.cbp" />
+		<Project filename="wxCnChessWin.cbp" />
+		<Project filename="boost_test_ReadXQF_Win.cbp" active="1" />
 	</Workspace>
 </CodeBlocks_workspace_file>

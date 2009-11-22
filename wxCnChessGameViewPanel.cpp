@@ -67,11 +67,11 @@ namespace wxCnChess {
 
         topSizer->Add(m_ChessBoard, 1,wxCenter| wxEXPAND | wxALL, 2 );
 
-        //wxStaticBoxSizer* controlSizer = new wxStaticBoxSizer( wxVERTICAL, this );
-        wxBoxSizer* controlSizer = new wxBoxSizer( wxVERTICAL );
+        wxStaticBoxSizer* controlSizer = new wxStaticBoxSizer( wxVERTICAL, this );
+        //wxBoxSizer* controlSizer = new wxBoxSizer( wxVERTICAL );
 
         CreateTreeControl( controlSizer );
-        //CreateListControl( controlSizer );
+        CreateListControl( controlSizer );
         CreateTextControl( controlSizer );
 
         //create a sizer with no border and centered horizontally
@@ -117,7 +117,7 @@ namespace wxCnChess {
 
         m_Tree->Expand(root);
 
-        sizer->Add( m_Tree, 1, wxEXPAND /*| wxALL*/, 2 );
+        sizer->Add( m_Tree, 1, wxEXPAND | wxALL, 2 );
 
     }
 
@@ -137,7 +137,7 @@ namespace wxCnChess {
     {
         m_List = new wxListCtrl( this, ID_ListCtrl,
                             wxDefaultPosition, wxSize(160,80),
-                            wxLC_REPORT/*|wxLC_SINGLE_SEL|wxLC_HRULES|wxLC_VRULES*/);
+                            wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_HRULES|wxLC_VRULES);
 
         wxListItem itemCol;
         itemCol.SetText(wxT("Red"));
@@ -154,7 +154,7 @@ namespace wxCnChess {
             buf.Printf(wxT("Item %d"), i);
             m_List->InsertItem(i, buf);
 
-            buf.Printf(wxT("第二栏 %d"), i);
+            buf.Printf(wxT("Item List %d"), i);
             m_List->SetItem(i, 1, buf);
 
         }
