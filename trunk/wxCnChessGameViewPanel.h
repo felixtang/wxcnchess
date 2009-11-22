@@ -44,10 +44,10 @@ namespace wxCnChess {
 
     protected:
 
-        virtual void OnSize(wxSizeEvent& event);
-        virtual void OnPaint(wxPaintEvent& event);
-        virtual void OnMouseMove(wxMouseEvent& event);
-        virtual void OnEraseBackground(wxEraseEvent& event);
+//        virtual void OnSize(wxSizeEvent& event);
+//        virtual void OnPaint(wxPaintEvent& event);
+//        virtual void OnMouseMove(wxMouseEvent& event);
+//        virtual void OnEraseBackground(wxEraseEvent& event);
 
     public:
         enum

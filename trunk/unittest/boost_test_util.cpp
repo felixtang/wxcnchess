@@ -1,10 +1,9 @@
-#define BOOST_AUTO_TEST_MAIN
+
+#include <boost/test/unit_test.hpp>
 
 #include <iostream>
-#include <boost/test/unit_test.hpp>
 #include <stdlib.h>
 #include <stdio.h>
-
 #include <iostream>
 #include <string>
 
@@ -42,22 +41,25 @@ BOOST_AUTO_TEST_CASE( SIZE_Tree )
     tr.append_child(one,"three");
 
     loc=find(tr.begin(), tr.end(), "two");
-    if(loc!=tr.end()) {
-      tree<string>::sibling_iterator sib=tr.begin(loc);
-      while(sib!=tr.end(loc)) {
-         cout << (*sib) << endl;
-         ++sib;
-         }
-      cout << endl;
-      tree<string>::iterator sib2=tr.begin(loc);
-      tree<string>::iterator end2=tr.end(loc);
-      while(sib2!=end2) {
-         for(int i=0; i<tr.depth(sib2)-2; ++i)
-            cout << " ";
-         cout << (*sib2) << endl;
-         ++sib2;
-         }
-      }
+    if (loc!=tr.end())
+    {
+        tree<string>::sibling_iterator sib=tr.begin(loc);
+        while (sib!=tr.end(loc))
+        {
+            cout << (*sib) << endl;
+            ++sib;
+        }
+        cout << endl;
+        tree<string>::iterator sib2=tr.begin(loc);
+        tree<string>::iterator end2=tr.end(loc);
+        while (sib2!=end2)
+        {
+            for (int i=0; i<tr.depth(sib2)-2; ++i)
+                cout << " ";
+            cout << (*sib2) << endl;
+            ++sib2;
+        }
+    }
 
 }
 

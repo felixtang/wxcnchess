@@ -210,6 +210,7 @@ namespace wxCnChess {
         bw = m_BoardImage.GetWidth();
         bh = m_BoardImage.GetHeight();
 
+        SetSize( bw + 5, bh + 5);
 
         // If use the ChessBoard.jpg as background the offset should be the fallowing
         const float offset_x = 0.041436, offset_y = 0.037221;
@@ -257,24 +258,32 @@ namespace wxCnChess {
         // this is our return value
         wxBitmap result;
 
+        int new_width, new_height;
+
         // if the width is bigger than the height, we should determine a scale for the height
         if (original_width >= original_height && original_width > max_width) {
             float height_scale = (float)max_width / (float)original_width; // determine the scale
             wxImage img = bmp.ConvertToImage(); // create an image of the bitmap
             // now use rescale with our perfect scale dimensions
-            result = wxBitmap(img.Rescale(max_width, (int)(original_height * height_scale)));
+            new_width  = max_width;
+            new_height = (int)(original_height * height_scale);
+            result = wxBitmap(img.Rescale( new_width, new_height ));
         } else if (original_height >= original_width && original_height > max_height) {
             // do a similar thing here, only for the width instead of height
             float width_scale = (float)max_height / (float)original_height;
             wxImage img = bmp.ConvertToImage();
-            result = wxBitmap(img.Rescale((int)(original_width * width_scale), max_height));
+            new_width  = (int)(original_width * width_scale);
+            new_height = max_height;
+            result = wxBitmap(img.Rescale( new_width, new_height ));
         } else { // nothing to do, simply return the original bitmap
             return bmp;
         }
 
+        //SetSize(new_width, new_height);
+
         // now we need to trim the actual bitmap to the same scale~ otherwise, the graphic itself
         // will be the right size, but the bitmap object will retain the original sizes (which are too big)
-        //result.SetWidth(max_width); result.SetHeight(max_height);
+        result.SetWidth(new_width); result.SetHeight(new_height);
         return result; // finally, return the resized bitmap
     }
 }

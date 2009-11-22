@@ -4,6 +4,7 @@
 #include "wxCnChessGame.h"
 
 #if defined( __WIN32__ ) || defined( _WIN32 )
+#include <windows.h>
 #else
 typedef unsigned char   BYTE;
 typedef unsigned short  WORD;
@@ -36,9 +37,9 @@ namespace wxCnChess
     private:
         std::string m_LastError;
         enum {RECENT_VER = 0x12};
-        // 解密用数据
+        // For Decrypt
         BYTE m_ucKey[0x30];
-        // 文件版本
+        // File Version
         BYTE m_ucVer;
         BYTE m_uc40E;
         BYTE m_uc40F;
