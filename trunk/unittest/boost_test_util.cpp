@@ -40,7 +40,8 @@ BOOST_AUTO_TEST_CASE( SIZE_Tree )
     tr.append_child(two, "peach");
     tr.append_child(one,"three");
 
-    loc=find(tr.begin(), tr.end(), "two");
+    //loc=find(tr.begin(), tr.end(), "one");
+	loc=tr.begin();
     if (loc!=tr.end())
     {
         tree<string>::sibling_iterator sib=tr.begin(loc);
@@ -54,7 +55,7 @@ BOOST_AUTO_TEST_CASE( SIZE_Tree )
         tree<string>::iterator end2=tr.end(loc);
         while (sib2!=end2)
         {
-            for (int i=0; i<tr.depth(sib2)-2; ++i)
+            for (int i=0; i<tr.depth(sib2)/*-2*/; ++i)
                 cout << " ";
             cout << (*sib2) << endl;
             ++sib2;
