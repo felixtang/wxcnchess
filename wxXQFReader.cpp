@@ -107,7 +107,7 @@ namespace wxCnChess
     ////////////////////////////////////
     bool wxXQFReader::ReadInitDecryptKey(const BYTE* buf)
     {
-        // 初始化解密种子
+        // initialize the seed for decypt
         if (m_ucVer < 0x10)
         {
             m_ucVer = 0;

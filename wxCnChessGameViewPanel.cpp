@@ -7,9 +7,9 @@
 namespace wxCnChess {
 
     BEGIN_EVENT_TABLE(wxCnChessGameView, wxPanel)
-        EVT_MOUSE_EVENTS    (wxCnChessGameView::OnMouseMove)
-        EVT_ERASE_BACKGROUND(wxCnChessGameView::OnEraseBackground)
-        EVT_PAINT           (wxCnChessGameView::OnPaint)
+        //EVT_MOUSE_EVENTS    (wxCnChessGameView::OnMouseMove)
+        //EVT_ERASE_BACKGROUND(wxCnChessGameView::OnEraseBackground)
+        //EVT_PAINT           (wxCnChessGameView::OnPaint)
         //EVT_SIZE            (wxCnChessGameView::OnSize)
     END_EVENT_TABLE()
 
@@ -71,7 +71,7 @@ namespace wxCnChess {
         wxBoxSizer* controlSizer = new wxBoxSizer( wxVERTICAL );
 
         CreateTreeControl( controlSizer );
-        CreateListControl( controlSizer );
+        //CreateListControl( controlSizer );
         CreateTextControl( controlSizer );
 
         //create a sizer with no border and centered horizontally
@@ -117,7 +117,7 @@ namespace wxCnChess {
 
         m_Tree->Expand(root);
 
-        sizer->Add( m_Tree, 1, wxEXPAND | wxALL, 2 );
+        sizer->Add( m_Tree, 1, wxEXPAND /*| wxALL*/, 2 );
 
     }
 
@@ -137,7 +137,7 @@ namespace wxCnChess {
     {
         m_List = new wxListCtrl( this, ID_ListCtrl,
                             wxDefaultPosition, wxSize(160,80),
-                            wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_HRULES|wxLC_VRULES);
+                            wxLC_REPORT/*|wxLC_SINGLE_SEL|wxLC_HRULES|wxLC_VRULES*/);
 
         wxListItem itemCol;
         itemCol.SetText(wxT("Red"));
@@ -173,28 +173,29 @@ namespace wxCnChess {
     }
 
     //------------------------------------------------------------------------------
-    void wxCnChessGameView::OnSize(wxSizeEvent& event)
-    {
-        //m_ReSized = true;
-
-        //Refresh();
-
-        //wxLogMessage(wxT("OnSize: w=%d,h=%d" ),iWidth,iHeight);
-    }
-
-    //------------------------------------------------------------------------------
-    void wxCnChessGameView::OnPaint(wxPaintEvent& event)
-    {
-
-    }
-
-    //------------------------------------------------------------------------------
-    void wxCnChessGameView::OnMouseMove(wxMouseEvent& event)
-    {
-    }
-
-    //------------------------------------------------------------------------------
-    void wxCnChessGameView::OnEraseBackground(wxEraseEvent& event)
-    {
-    }
+//    void wxCnChessGameView::OnSize(wxSizeEvent& event)
+//    {
+//        wxPanel::OnSize(event);
+//        //m_ReSized = true;
+//
+//        Refresh();
+//
+//        //wxLogMessage(wxT("OnSize: w=%d,h=%d" ),iWidth,iHeight);
+//    }
+//
+//    //------------------------------------------------------------------------------
+//    void wxCnChessGameView::OnPaint(wxPaintEvent& event)
+//    {
+//        wxPanel::OnPaint(event);
+//    }
+//
+//    //------------------------------------------------------------------------------
+//    void wxCnChessGameView::OnMouseMove(wxMouseEvent& event)
+//    {
+//    }
+//
+//    //------------------------------------------------------------------------------
+//    void wxCnChessGameView::OnEraseBackground(wxEraseEvent& event)
+//    {
+//    }
 }
