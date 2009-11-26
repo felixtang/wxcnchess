@@ -3,14 +3,6 @@
 
 #include "wxCnChessGame.h"
 
-#if defined( __WIN32__ ) || defined( _WIN32 )
-#include <windows.h>
-#else
-typedef unsigned char   BYTE;
-typedef unsigned short  WORD;
-typedef unsigned long   DWORD;
-#endif
-
 namespace wxCnChess
 {
 
@@ -28,7 +20,7 @@ namespace wxCnChess
         ~wxXQFReader();
 		inline BYTE* GetHeaderBuff() { return m_HeaderBuff; };
 		std::string ReadString( const BYTE* buff );
-		
+
 
 	private:
         bool ReadHeader( size_t len);

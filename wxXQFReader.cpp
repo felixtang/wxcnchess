@@ -45,7 +45,7 @@ namespace wxCnChess
     bool wxXQFReader::ReadGame(wxCnChessGame* Game, std::istream& data_stream)
     {
 
-		m_pGame = Game;
+        m_pGame = Game;
 
         if (data_stream.bad())
         {
@@ -57,9 +57,12 @@ namespace wxCnChess
         memset( m_HeaderBuff, 0 ,sizeof(m_HeaderBuff) );
         data_stream.read( (char*)m_HeaderBuff, sizeof(m_HeaderBuff) );
 
-        if( !ReadHeader( /*m_HeaderBuff,*/ sizeof(m_HeaderBuff)) ){
+        if ( !ReadHeader( /*m_HeaderBuff,*/ sizeof(m_HeaderBuff)) )
+        {
             return false;
         }
+
+        ReadStep( data_stream, m_pGame->GameTree.begin() );
 
         //std::cout << buff << std::endl;
 
@@ -78,10 +81,11 @@ namespace wxCnChess
             return false;
         }
         std::cout << "CheckFormat OK!" << std::endl;
-		
-		m_ucVer = m_HeaderBuff[2];
-		ReadInitDecryptKey(m_HeaderBuff);
-		InitChessBoard(m_HeaderBuff);
+
+        m_ucVer = m_HeaderBuff[2];
+        ReadInitDecryptKey(m_HeaderBuff);
+        InitChessBoard(m_HeaderBuff);
+
         return true;
     }
 
@@ -89,7 +93,8 @@ namespace wxCnChess
     bool wxXQFReader::CheckFormat(const BYTE* buf) const
     {
         // 检验文件头
-        if (*(WORD*)buf != *(WORD*)"XQ"){
+        if (*(WORD*)buf != *(WORD*)"XQ")
+        {
             m_LastError = " Head != 'XQ'! ";
             return false;
         }
@@ -247,112 +252,159 @@ namespace wxCnChess
         return true;
     }
 
-	//----------------------------------------------------------------------------------
-	////////////////////////////////////
-	// Read [ n( BYTE ) ,data] String
-	////////////////////////////////////
-	std::string wxXQFReader::ReadString(const BYTE* buff)
-	{
-		BYTE len = buff[0];
-		std::string str( buff + 1, buff + len + 1);
-		assert( str.size() == len );
-		return str;
-	}
+    //----------------------------------------------------------------------------------
+    ////////////////////////////////////
+    // Read [ n( BYTE ) ,data] String
+    ////////////////////////////////////
+    std::string wxXQFReader::ReadString(const BYTE* buff)
+    {
+        BYTE len = buff[0];
+        std::string str( buff + 1, buff + len + 1);
+        assert( str.size() == len );
+        return str;
+    }
 
     //----------------------------------------------------------------------------------
-	std::string wxXQFReader::ReadCommentString( std::istream& data_stream, BYTE flag )	{		assert( 4 == sizeof(int) );
-		
-		int nCommentLen = 0;
-		char* szComment = 0;
-		if (m_ucVer <= 0xA)
-		{
-			ReadAndDecrypt( data_stream, (BYTE*)&nCommentLen, sizeof(int) );
-		}
-		else
-		{
-			// 高版本通过flag来标记有没有注释，有则紧跟着注释长度和注释字段
-			flag &= 0xE0;
-			if (flag & 0x20) // 有注释
-			{
-				 ReadAndDecrypt( data_stream, (BYTE*)&nCommentLen, sizeof(int) );
-				 nCommentLen -= m_w412;
-			}
-		}		if (nCommentLen > 0)
-		{
-			szComment = new char[nCommentLen + 1];
-			if (NULL == szComment)	{
-				return std::string("ERROR when new memory! ");
-			}
+    std::string wxXQFReader::ReadCommentString( std::istream& data_stream, BYTE flag )
+    {
+        assert( 4 == sizeof(int) );
 
-			szComment[nCommentLen] = 0;
-			if ( false == ReadAndDecrypt( data_stream, (BYTE*)szComment, nCommentLen) )	{
-				delete []szComment;
-				return std::string("ERROR when read comment in file! ");
-			}
+        int nCommentLen = 0;
+        char* szComment = 0;
 
-			std::string result(szComment);
-			assert( nCommentLen == result.size() );
-			return result;
-		}
+        if (m_ucVer <= 0xA)
+        {
+            ReadAndDecrypt( data_stream, (BYTE*)&nCommentLen, sizeof(int) );
+        }
+        else
+        {
+            // 高版本通过flag来标记有没有注释，有则紧跟着注释长度和注释字段
+            flag &= 0xE0;
+            if (flag & 0x20) // 有注释
+            {
+                ReadAndDecrypt( data_stream, (BYTE*)&nCommentLen, sizeof(int) );
+                nCommentLen -= m_w412;
+            }
+        }
 
-		return std::string("");	}	//----------------------------------------------------------------------------------    
-	void wxXQFReader::SetStartState( BYTE* stateBuff )
-	{
-		if( !stateBuff ) 
-			return;
+        if (nCommentLen > 0)
+        {
+            szComment = new char[nCommentLen + 1];
+            if (NULL == szComment)
+            {
+                return std::string("ERROR when new memory! ");
+            }
 
-		memcpy( stateBuff, m_HeaderBuff + 0x10 , CHESS_MAN_NUM );
-	}
+            szComment[nCommentLen] = 0;
+            if ( false == ReadAndDecrypt( data_stream, (BYTE*)szComment, nCommentLen) )
+            {
+                delete []szComment;
+                return std::string("ERROR when read comment in file! ");
+            }
 
-	//----------------------------------------------------------------------------------
-	GameTree_t::iterator wxXQFReader::ReadStep( std::istream& data_stream, GameTree_t::iterator nodeParent )
-	{
-        assert( data_stream.good() && "ReadStep error: data stream is bad! ");				GameTree_t* pTree = &(m_pGame->GameTree);				BYTE ucStep[4];				if( false == ReadAndDecrypt( data_stream, ucStep, 4 ) ){
-			return pTree->end();
-		}
+            std::string result(szComment);
+            assert( nCommentLen == (int)result.size() );
+            return result;
+        }
 
-		BYTE ucFlag = 0;
+        return std::string("");
+    }
 
-		// Modify the flag according to the version
-		if (m_ucVer <= 0xA)
-		{
-			if (ucStep[2] & 0xF0)
-				ucFlag |= 0x80;
-			if (ucStep[2] & 0x0F)
-				ucFlag |= 0x40;
-		} else {
-			ucFlag = ucStep[2];		}
-		ReadCommentString( data_stream, ucFlag );		ucStep[0] -= 0x18;
-		ucStep[0] -= m_uc40F;
-		ucStep[1] -= 0x20;
-		ucStep[1] -= m_uc410;				GameTree_t::iterator curNode =  pTree->append_child ( nodeParent );  // new a node under the parent node		curNode->m_ucFrom	= ucStep[0];		curNode->m_ucTo		= ucStep[1];		if( nodeParent == pTree->begin() ) {
-			SetStartState( curNode->ucChessBoard );
-		} else {
-			memcpy( curNode->ucChessBoard, nodeParent->ucChessBoard, CHESS_MAN_NUM );		}
-		std::replace( curNode->ucChessBoard, curNode->ucChessBoard + CHESS_MAN_NUM, (BYTE)curNode->m_ucTo, (BYTE)0xFF); // If a piece in the pos which this step will go to, eat it
-		std::replace( curNode->ucChessBoard, curNode->ucChessBoard + CHESS_MAN_NUM, curNode->m_ucFrom, curNode->m_ucTo);
-		// 有后续着法
-		if ( ucFlag & 0x80 )
-		{
-			GameTree_t::iterator nodeChild = ReadStep( curNode );
-			//if ( nodeChild != pTree->end() )
-			//{
-			//	pNode->pFirstChild = pChild;
-			//	pNode->pCurChild = pChild;
-			//}
-		}		// 有变着
-		if (ucStep[2] & 0x40)
-		{
-			GameTree_t::iterator nodeChild = ReadStep( nodeParent );
-			//if (pRight)
-			//{
-			//	pNode->pRight = pRight;
-			//	pRight->pLeft = pNode;
-			//}
-		}
 
-		return curNode;
-	}
+    //----------------------------------------------------------------------------------
+    void wxXQFReader::SetStartState( BYTE* stateBuff )
+    {
+        if ( !stateBuff )
+            return;
+
+        memcpy( stateBuff, m_HeaderBuff + 0x10 , CHESS_MAN_NUM );
+
+    }
+
+    //----------------------------------------------------------------------------------
+    GameTree_t::iterator wxXQFReader::ReadStep( std::istream& data_stream, GameTree_t::iterator nodeParent )
+    {
+        assert( data_stream.good() && "ReadStep error: data stream is bad! ");
+
+        GameTree_t* pTree = &(m_pGame->GameTree);
+
+        BYTE ucStep[4];
+
+        if ( false == ReadAndDecrypt( data_stream, ucStep, 4 ) )
+        {
+            return pTree->end();
+        }
+
+        BYTE ucFlag = 0;
+
+        // Modify the flag according to the version
+        if (m_ucVer <= 0xA)
+        {
+            if (ucStep[2] & 0xF0)
+                ucFlag |= 0x80;
+            if (ucStep[2] & 0x0F)
+                ucFlag |= 0x40;
+        }
+        else
+        {
+            ucFlag = ucStep[2];
+        }
+
+        ucStep[0] -= 0x18;
+        ucStep[0] -= m_uc40F;
+        ucStep[1] -= 0x20;
+        ucStep[1] -= m_uc410;
+
+        GameTree_t::iterator curNode;
+        GameNode GameNode;
+
+        GameNode.m_Comment  = ReadCommentString( data_stream, ucFlag );
+        GameNode.m_ucFrom	= ucStep[0];
+        GameNode.m_ucTo		= ucStep[1];
+
+        static unsigned int node_id = 0;
+        std::stringstream ss;
+        ss << "Game Node " << node_id++ ;
+        GameNode.m_Name     = ss.str();
+
+        if ( nodeParent == pTree->end() )
+        {
+            curNode = pTree->insert( nodeParent, GameNode );
+            SetStartState( curNode->ucChessBoard );
+        }
+        else
+        {
+            curNode =  pTree->append_child ( nodeParent, GameNode );  // new a node under the parent node
+            memcpy( curNode->ucChessBoard, nodeParent->ucChessBoard, CHESS_MAN_NUM );
+        }
+        std::replace( curNode->ucChessBoard, curNode->ucChessBoard + CHESS_MAN_NUM, (BYTE)curNode->m_ucTo, (BYTE)0xFF); // If a piece in the pos which this step will go to, eat it
+        std::replace( curNode->ucChessBoard, curNode->ucChessBoard + CHESS_MAN_NUM, curNode->m_ucFrom, curNode->m_ucTo);
+
+        // 有后续着法
+        if ( ucFlag & 0x80 )
+        {
+            GameTree_t::iterator nodeChild = ReadStep( data_stream, curNode );
+            //if ( nodeChild != pTree->end() )
+            //{
+            //	pNode->pFirstChild = pChild;
+            //	pNode->pCurChild = pChild;
+            //}
+        }
+
+        // 有变着
+        if (ucStep[2] & 0x40)
+        {
+            GameTree_t::iterator nodeChild = ReadStep( data_stream, nodeParent );
+            //if (pRight)
+            //{
+            //	pNode->pRight = pRight;
+            //	pRight->pLeft = pNode;
+            //}
+        }
+
+        std::cout << "ReadStep: game tree size: " << pTree->size() << std::endl;
+        return curNode;
+    }
 
 
     //----------------------------------------------------------------------------------
