@@ -38,6 +38,7 @@
 		</Compiler>
 		<Unit filename="unittest/boost_test_ReadXQF.cpp" />
 		<Unit filename="unittest/boost_test_util.cpp" />
+		<Unit filename="wxCnChessGame.cpp" />
 		<Unit filename="wxCnChessGame.h" />
 		<Unit filename="wxXQFReader.cpp" />
 		<Unit filename="wxXQFReader.h" />
