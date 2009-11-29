@@ -76,15 +76,15 @@ namespace wxCnChess
         case XM_KING:
             if (nStartY == nEndY)
             {
-                sprintf(szStep, "%s%så¹³%s\n", szManName[nSrcMan], szNum[nStartX], szNum[nEndX]);
+                sprintf(szStep, "%s%sÆ½%s\n", szManName[nSrcMan], szNum[nStartX], szNum[nEndX]);
             }
             else if (nStartY < nEndY)
             {
-                sprintf(szStep, "%s%sè¿›%s\n", szManName[nSrcMan], szNum[nStartX], szNum[nEndY - nStartY - 1]);
+                sprintf(szStep, "%s%s½ø%s\n", szManName[nSrcMan], szNum[nStartX], szNum[nEndY - nStartY - 1]);
             }
             else
             {
-                sprintf(szStep, "%s%sé€€%s\n", szManName[nSrcMan], szNum[nStartX], szNum[nStartY - nEndY - 1]);
+                sprintf(szStep, "%s%sÍË%s\n", szManName[nSrcMan], szNum[nStartX], szNum[nStartY - nEndY - 1]);
             }
             break;
         case XM_MA:
@@ -92,11 +92,11 @@ namespace wxCnChess
         case XM_SHI:
             if (nStartY < nEndY)
             {
-                sprintf(szStep, "%s%sè¿›%s\n", szManName[nSrcMan], szNum[nStartX], szNum[nEndX]);
+                sprintf(szStep, "%s%s½ø%s\n", szManName[nSrcMan], szNum[nStartX], szNum[nEndX]);
             }
             else
             {
-                sprintf(szStep, "%s%sé€€%s\n", szManName[nSrcMan], szNum[nStartX], szNum[nEndX]);
+                sprintf(szStep, "%s%sÍË%s\n", szManName[nSrcMan], szNum[nStartX], szNum[nEndX]);
             }
             break;
         default:

@@ -55,8 +55,8 @@ namespace wxCnChess {
         bool Initialize(int& argc, wxChar **argv)
         {
             #if defined( __WIN32__ ) || defined( _WIN32 )
-            // VS2005ä¹‹åç‰ˆæœ¬çš„std::fstreamå¯¹ä¸­æ–‡è·¯å¾„å¤„ç†ä¸æ­£ç¡®çš„åŸå› ï¼Œæ‰€ä»¥åŠ è½½ä¸­æ–‡è·¯å¾„æˆ–æ–‡ä»¶åä¸æˆåŠŸï¼Œè§£å†³åŠæ³•ï¼š
-            // åœ¨ä¸»å‡½æ•°å¼€å§‹åŠ å…¥  setlocale(LC_ALL,"Chinese-simplified");
+            // VS2005Ö®ºó°æ±¾µÄstd::fstream¶ÔÖĞÎÄÂ·¾¶´¦Àí²»ÕıÈ·µÄÔ­Òò£¬ËùÒÔ¼ÓÔØÖĞÎÄÂ·¾¶»òÎÄ¼şÃû²»³É¹¦£¬½â¾ö°ì·¨£º
+            // ÔÚÖ÷º¯Êı¿ªÊ¼¼ÓÈë  setlocale(LC_ALL,"Chinese-simplified");
             setlocale(LC_ALL,"Chinese-simplified");
             #endif
 

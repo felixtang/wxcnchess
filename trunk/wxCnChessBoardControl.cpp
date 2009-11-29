@@ -116,6 +116,7 @@ namespace wxCnChess {
     {
         wxPaintDC dc(this);
         RenderDC(dc);
+        event.Skip();
     }
 
     //------------------------------------------------------------------------------
@@ -197,7 +198,7 @@ namespace wxCnChess {
         bh = m_BoardImage.GetHeight();
 
         if( ((bw > bh) && (bw < w)) || ((bh > bw) && (bh < h))  ){
-            // å›¾åƒéœ€è¦è¢«æ”¾å¤§ï¼Œé‡æ–°è½½å…¥æ•°æ®ã€‚
+            // Í¼ÏñÐèÒª±»·Å´ó£¬ÖØÐÂÔØÈëÊý¾Ý¡£
             //m_BoardImage.GetSubBitmap(wxRect(0, 0, m_OriginalBoardImage.GetWidth(), m_OriginalBoardImage.GetHeight()));
             m_BoardImage = m_OriginalBoardImage.GetSubBitmap(
                             wxRect(0, 0,

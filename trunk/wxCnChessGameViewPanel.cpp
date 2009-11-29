@@ -87,7 +87,7 @@ namespace wxCnChess {
     void wxCnChessGameView::CreateTreeControl( wxSizer* sizer )
     {
         m_Tree = new wxTreeCtrl(this, ID_TreeCtrl,
-                            wxDefaultPosition, wxSize(160,100),
+                            wxDefaultPosition, wxSize(100,100),
                             wxTR_DEFAULT_STYLE);
 
         wxImageList* imglist = new wxImageList(16, 16, true, 2);
@@ -126,7 +126,7 @@ namespace wxCnChess {
     {
         m_Comment = new wxTextCtrl( this, -1,
                             wxEmptyString, wxDefaultPosition,
-                            wxSize(160,50), wxTE_MULTILINE);
+                            wxSize(100,50), wxTE_MULTILINE);
 
         sizer->Add( m_Comment, 1,  wxEXPAND | wxALL, 2 );
 
@@ -136,7 +136,7 @@ namespace wxCnChess {
     void wxCnChessGameView::CreateListControl( wxSizer* sizer )
     {
         m_List = new wxListCtrl( this, ID_ListCtrl,
-                            wxDefaultPosition, wxSize(160,80),
+                            wxDefaultPosition, wxSize(100,80),
                             wxLC_REPORT|wxLC_SINGLE_SEL|wxLC_HRULES|wxLC_VRULES);
 
         wxListItem itemCol;

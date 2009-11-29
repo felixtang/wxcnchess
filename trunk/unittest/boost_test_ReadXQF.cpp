@@ -50,7 +50,7 @@ BOOST_AUTO_TEST_CASE( Read_Sample_XQF )
     wxCnChess::wxXQFReader reader;
     wxCnChess::wxCnChessGame Game;
     std::cout << "Read XQF " << std::endl;
-    if ( false == reader.ReadGame( &Game, "./unittest/Sample.XQF") )
+    if ( false == reader.ReadGame( &Game, "./unittest/Sample2.XQF") )
     {
         std::cout << "Read XQF fail: " << reader.GetLastError() << std::endl;
     }
