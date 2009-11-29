@@ -37,25 +37,25 @@ namespace wxCnChess
 
     static const char* const szManName[] =
     {
-        "è½¦", "é©¬", "ç›¸", "å£«", "å¸…", "å£«", "ç›¸", "é©¬", "è½¦", "ç‚®", "ç‚®", "å…µ", "å…µ", "å…µ", "å…µ", "å…µ",
-        "è½¦", "é©¬", "è±¡", "å£«", "å°†", "å£«", "è±¡", "é©¬", "è½¦", "ç‚®", "ç‚®", "å’", "å’", "å’", "å’", "å’"
+        "³µ", "Âí", "Ïà", "Ê¿", "Ë§", "Ê¿", "Ïà", "Âí", "³µ", "ÅÚ", "ÅÚ", "±ø", "±ø", "±ø", "±ø", "±ø",
+        "³µ", "Âí", "Ïó", "Ê¿", "½«", "Ê¿", "Ïó", "Âí", "³µ", "ÅÚ", "ÅÚ", "×ä", "×ä", "×ä", "×ä", "×ä"
     };
 
     static const char* szRedNum[] =
-        {"ä¸€", "äºŒ", "ä¸‰", "å››", "äº”", "å…­", "ä¸ƒ", "å…«", "ä¹"};
+        {"Ò»", "¶þ", "Èý", "ËÄ", "Îå", "Áù", "Æß", "°Ë", "¾Å"};
 
     static const char* szBlackNum[] =
-        {"ï¼‘", "ï¼’", "ï¼“", "ï¼”", "ï¼•", "ï¼–", "ï¼—", "ï¼˜", "ï¼™"};
+        {"£±", "£²", "£³", "£´", "£µ", "£¶", "£·", "£¸", "£¹"};
 
     enum XM_TYPE
     {
-        XM_JU, // è½¦
-        XM_MA, // é©¬
-        XM_XIANG, // ç›¸è±¡
-        XM_SHI, // ä»•å£«
-        XM_KING, // å¸…å°†
-        XM_PAO, // ç‚®
-        XM_BING // å…µå’
+        XM_JU, // ³µ
+        XM_MA, // Âí
+        XM_XIANG, // ÏàÏó
+        XM_SHI, // ÊËÊ¿
+        XM_KING, // Ë§½«
+        XM_PAO, // ÅÚ
+        XM_BING // ±ø×ä
     };
 
     static const XM_TYPE g_xqMan[] =
@@ -64,30 +64,30 @@ namespace wxCnChess
         XM_JU, XM_MA, XM_XIANG, XM_SHI, XM_KING, XM_SHI, XM_XIANG, XM_MA, XM_JU, XM_PAO, XM_PAO, XM_BING, XM_BING, XM_BING, XM_BING, XM_BING
     };
 
-    // èµ°å­é¡ºåº
+    // ×ß×ÓË³Ðò
     enum XQ_ORDER
     {
-        XO_RED, // çº¢å…ˆ
-        XO_BLACK, // é»‘å…ˆ
-        XO_NONE // æœªçŸ¥
+        XO_RED, // ºìÏÈ
+        XO_BLACK, // ºÚÏÈ
+        XO_NONE // Î´Öª
     };
 
-    // ç»“æžœ
+    // ½á¹û
     enum XQ_RESULT
     {
-        XR_UNKNOWN, // æœªçŸ¥
-        XR_REDWIN, // çº¢èƒœ
-        XR_BLACKWIN, // é»‘èƒœ
-        XR_PEACE // å’Œ
+        XR_UNKNOWN, // Î´Öª
+        XR_REDWIN, // ºìÊ¤
+        XR_BLACKWIN, // ºÚÊ¤
+        XR_PEACE // ºÍ
     };
 
-    // æ•°æ®ç±»åž‹
+    // Êý¾ÝÀàÐÍ
     enum XQ_TYPE
     {
-        XT_ALL, // å…¨å±€
-        XT_OPEN, // å¼€å±€
-        XT_MIDDLE, // ä¸­å±€
-        XT_END // æ®‹å±€
+        XT_ALL, // È«¾Ö
+        XT_OPEN, // ¿ª¾Ö
+        XT_MIDDLE, // ÖÐ¾Ö
+        XT_END // ²Ð¾Ö
     };
     //----------------------------------------------------------------------------------
 

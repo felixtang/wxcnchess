@@ -92,20 +92,20 @@ namespace wxCnChess
     //----------------------------------------------------------------------------------
     bool wxXQFReader::CheckFormat(const BYTE* buf) const
     {
-        // æ£€éªŒæ–‡ä»¶å¤´
+        // ¼ìÑéÎÄ¼şÍ·
         if (*(WORD*)buf != *(WORD*)"XQ")
         {
             m_LastError = " Head != 'XQ'! ";
             return false;
         }
-        // æ–‡ä»¶æ¯”ç¨‹åºç‰ˆæœ¬é«˜ï¼Œæ— æ³•è¯»å–
+        // ÎÄ¼ş±È³ÌĞò°æ±¾¸ß£¬ÎŞ·¨¶ÁÈ¡
         if (buf[2] > RECENT_VER)
         {
             m_LastError = " Version > 0x12 ";
             return false;
         }
 
-        // è¾ƒéªŒ
+        // ½ÏÑé
         BYTE ucChk = std::accumulate(buf + 0xC, buf + 0x10, 0);
         if (0 != ucChk)
         {
@@ -117,20 +117,21 @@ namespace wxCnChess
 
     //----------------------------------------------------------------------------------
     ////////////////////////////////////
-    // åˆå§‹åŒ–è§£å¯†ç§å­
+    // ³õÊ¼»¯½âÃÜÖÖ×Ó
     // Programmer : Michael Taylor
     // 0x47BDE0, 0x47B50C
     ////////////////////////////////////
     bool wxXQFReader::ReadInitDecryptKey(const BYTE* buf)
     {
         // initialize the seed for decypt
-        if (m_ucVer < 0x10)
+        if (m_ucVer < 0xA)
         {
-            m_ucVer = 0;
+            //m_ucVer = 0;
             m_uc40E = 0;
             m_uc40F = 0;
             m_uc410 = 0;
             m_uc40F = 0;
+			
             memset(m_ucKey, 0, sizeof(m_ucKey));
         }
         else
@@ -237,7 +238,7 @@ namespace wxCnChess
     {
         int nPos = data_stream.tellg();
 
-        // è¯»å–æ•°æ®
+        // ¶ÁÈ¡Êı¾İ
         if (!data_stream.read((char*)buff, len))
         {
             m_LastError = "ReadAndDecrypt: Read Fail ! ";
@@ -275,12 +276,14 @@ namespace wxCnChess
         if (m_ucVer <= 0xA)
         {
             ReadAndDecrypt( data_stream, (BYTE*)&nCommentLen, sizeof(int) );
+			//data_stream.read((char*)&nCommentLen, sizeof(int));
+			
         }
         else
         {
-            // é«˜ç‰ˆæœ¬é€šè¿‡flagæ¥æ ‡è®°æœ‰æ²¡æœ‰æ³¨é‡Šï¼Œæœ‰åˆ™ç´§è·Ÿç€æ³¨é‡Šé•¿åº¦å’Œæ³¨é‡Šå­—æ®µ
+            // ¸ß°æ±¾Í¨¹ıflagÀ´±ê¼ÇÓĞÃ»ÓĞ×¢ÊÍ£¬ÓĞÔò½ô¸ú×Å×¢ÊÍ³¤¶ÈºÍ×¢ÊÍ×Ö¶Î
             flag &= 0xE0;
-            if (flag & 0x20) // æœ‰æ³¨é‡Š
+            if (flag & 0x20) // ÓĞ×¢ÊÍ
             {
                 ReadAndDecrypt( data_stream, (BYTE*)&nCommentLen, sizeof(int) );
                 nCommentLen -= m_w412;
@@ -303,6 +306,8 @@ namespace wxCnChess
             }
 
             std::string result(szComment);
+			delete []szComment;
+
             assert( nCommentLen == (int)result.size() );
             return result;
         }
@@ -380,7 +385,7 @@ namespace wxCnChess
         std::replace( curNode->ucChessBoard, curNode->ucChessBoard + CHESS_MAN_NUM, (BYTE)curNode->m_ucTo, (BYTE)0xFF); // If a piece in the pos which this step will go to, eat it
         std::replace( curNode->ucChessBoard, curNode->ucChessBoard + CHESS_MAN_NUM, curNode->m_ucFrom, curNode->m_ucTo);
 
-        // æœ‰åç»­ç€æ³•
+        // ÓĞºóĞø×Å·¨
         if ( ucFlag & 0x80 )
         {
             GameTree_t::iterator nodeChild = ReadStep( data_stream, curNode );
@@ -391,7 +396,7 @@ namespace wxCnChess
             //}
         }
 
-        // æœ‰å˜ç€
+        // ÓĞ±ä×Å
         if (ucStep[2] & 0x40)
         {
             GameTree_t::iterator nodeChild = ReadStep( data_stream, nodeParent );
